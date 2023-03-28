@@ -1,13 +1,11 @@
 const puppeteer = require('puppeteer')
 
 
+const oqueVoceQuerOuvir = "sons da chuva "// musica desejada "Obs caso altere o nome da musica pode ocorrer do codigo não encontrar o caminho dela pois o caminho deve ser alterado no codigo tambem "
+const horasParaDesligar = 03  // Coloque as hora que deseja feche o navegador de internet    
+const minutosParaDesligar = 26 // minutos que deseja feche o navegador de internet 
 
-const oqueVoceQuerOuvir = "Sons de chuva para dormir"// nome da musica que voce deseja 
-const horasParaDesligar = 01   // hora que deseja parar de tocar  
-const minutosParaDesligar = 34 // minutos que deseja que pare de tocar 
-
-const tempoDeResposta = 10000 // tempo de resposta do seu computador com a comunição com a internet para carregamento do site e execultar o programa 
-
+const tempoDeResposta = 4000 // tempo de resposta do seu computador com a comunição com a internet para carregamento do site e execultar o programa 
 
 
 puppeteer.launch({ headless: false }).then(async browser => {
@@ -35,9 +33,9 @@ puppeteer.launch({ headless: false }).then(async browser => {
 
     console.log("Procurando a sua musica");
     await page.waitForTimeout(tempoDeResposta);
-
     console.log("Selecionando a sua Musica");
     await page.click("html > body > ytd-app > div > ytd-page-manager > ytd-search > div > ytd-two-column-search-results-renderer > div > ytd-section-list-renderer > div > ytd-item-section-renderer > div > ytd-search-pyv-renderer > div > ytd-ad-slot-renderer > div > ytd-in-feed-ad-layout-renderer > div > ytd-promoted-video-renderer > div > div > a > div > div > h3")
+
 
     console.log("Aguardando o redirecionamento do navegador de internet ");
     await page.waitForTimeout(tempoDeResposta);
@@ -49,15 +47,16 @@ puppeteer.launch({ headless: false }).then(async browser => {
     console.log(`O navegador vai fechar as ${horasParaDesligar}:${minutosParaDesligar}`);
 
     const contagem = async () => {
+
         let dataAtual = new Date();
         let horas = dataAtual.getHours();
         let minutos = dataAtual.getMinutes();
 
         if (horas == horasParaDesligar && minutos == minutosParaDesligar) {
+            clearInterval(encerramento);
 
             browser.close();
-            clearInterval(encerramento);
-            console.log("Chega desta musica  , vamos pra outra ?")
+            console.log(`Chega de ${oqueVoceQuerOuvir}, vamos pra outra musica ?`)
         }
 
 
